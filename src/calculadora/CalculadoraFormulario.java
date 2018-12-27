@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class CalculadoraFormulario extends JFrame {
 
@@ -46,11 +47,13 @@ public class CalculadoraFormulario extends JFrame {
 		setContentPane(contentPane);
 		
 		tfResultado = new JTextField();
+		tfResultado.setHorizontalAlignment(SwingConstants.RIGHT);
 		tfResultado.setColumns(10);
 		
 		JButton btnCE = new JButton("CE");
 		btnCE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				clearPanel();
 			}
 		});
 		
@@ -63,66 +66,79 @@ public class CalculadoraFormulario extends JFrame {
 		JButton btnAtras = new JButton("<-");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String resultado = tfResultado.getText();
+				resultado = resultado.length() == 1? "0" : resultado.substring(0, resultado.length() - 1 );
+				tfResultado.setText(resultado);
 			}
 		});
 		
 		JButton btnSiete = new JButton("7");
 		btnSiete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("7");
 			}
 		});
 		
 		JButton btnOcho = new JButton("8");
 		btnOcho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("8");
 			}
 		});
 		
 		JButton btnNueve = new JButton("9");
 		btnNueve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("9");
 			}
 		});
 		
 		JButton btnCuatro = new JButton("4");
 		btnCuatro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("4");
 			}
 		});
 		
 		JButton btnCinco = new JButton("5");
 		btnCinco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("5");
 			}
 		});
 		
 		JButton btnSeis = new JButton("6");
 		btnSeis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("6");
 			}
 		});
 		
 		JButton btnUno = new JButton("1");
 		btnUno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("1");
 			}
 		});
 		
 		JButton btnDos = new JButton("2");
 		btnDos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("2");
 			}
 		});
 		
 		JButton btnTres = new JButton("3");
 		btnTres.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("3");
 			}
 		});
 		
 		JButton btnCero = new JButton("0");
 		btnCero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				writeInPanel("0");
 			}
 		});
 		
@@ -253,5 +269,15 @@ public class CalculadoraFormulario extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	public void writeInPanel(String value){
+		StringBuilder sb = new StringBuilder();
+		sb.append(tfResultado.getText());
+		sb.append(value);		
+		tfResultado.setText(sb.toString());
+	}
 
+	public void clearPanel(){
+		tfResultado.setText("0");		
+	}
 }
