@@ -59,13 +59,14 @@ public class CalculadoraFormulario extends JFrame {
 		JButton btnCE = new JButton("CE");
 		btnCE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				clearPanel();
+				cleanPanelResultado();
 			}
 		});
 		
 		JButton btnC = new JButton("C");
 		btnC.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				cleanAll();
 			}
 		});
 		
@@ -164,31 +165,34 @@ public class CalculadoraFormulario extends JFrame {
 		JButton btnRestar = new JButton("-");
 		btnRestar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				executeOperation("-");
 			}
 		});
 		
 		JButton btnSumar = new JButton("+");
 		btnSumar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
-				StringBuilder sb = new StringBuilder();
-				if(tfAcumulado.getText().length() > 0)
-					sb.append(tfAcumulado.getText());
-				sb.append(tfResultado.getText());
-				sb.append(" + ");				
-				tfAcumulado.setText(sb.toString());
-				shouldStartAgain = true;
+				executeOperation("+");
 			}
 		});
 		
 		JButton btnResultado = new JButton("=");
 		btnResultado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String text = tfAcumulado.getText();
+				if(text.length() > 0)
+				{
+					int result = Calculator.resolve(text);
+					tfResultado.setText(Integer.toString(result));
+					tfAcumulado.setText("");
+				}				
 			}
 		});
 		
-		JButton btnPorcentaje = new JButton("%");
+		JButton btnPorcentaje = new JButton("/");
 		btnPorcentaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				executeOperation("/");
 			}
 		});
 		
@@ -299,7 +303,7 @@ public class CalculadoraFormulario extends JFrame {
 	
 	public void writeInPanel(String value){
 		StringBuilder sb = new StringBuilder();
-		if(!shouldStartAgain)
+		if(!shouldStartAgain && !isZero()) 
 			sb.append(tfResultado.getText());
 		else{
 			shouldStartAgain = false;
@@ -308,7 +312,26 @@ public class CalculadoraFormulario extends JFrame {
 		tfResultado.setText(sb.toString());		
 	}
 
-	public void clearPanel(){
+	public void cleanPanelResultado(){
 		tfResultado.setText("0");		
+	}
+	
+	public void cleanAll(){
+		cleanPanelResultado();
+		tfAcumulado.setText("");
+	}
+	
+	public void executeOperation(String operation){
+		StringBuilder sb = new StringBuilder();
+		if(tfAcumulado.getText().length() > 0)
+			sb.append(tfAcumulado.getText());
+		sb.append(tfResultado.getText());
+		sb.append(" " + operation + " ");				
+		tfAcumulado.setText(sb.toString());
+		shouldStartAgain = true;		
+	}
+	
+	public boolean isZero(){
+		return tfResultado.getText() == "0";
 	}
 }
